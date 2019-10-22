@@ -64,26 +64,100 @@
                 <label for="basket">Your basket:</label>
                 <select multiple class="form-control" id="basket">
                 </select>
-                <h5>Total price: 0 DKK</h5>
             </div>
+            <h5 id="total-price"></h5>
             <div class="buy-btn">
-                <button type="button" class="btn btn-dark">Buy</button>
+                <button id="send-total-amount" type="button" class="btn btn-dark">Buy</button>
             </div>
         </form>
 
     <script>
 
-        
+        let totalPrice = 0;
         selectedPhones = [];
+        CustomersBasket = [];
+
+
+
         $(document).ready(function(){
+            $('#total-price').text('Total Price: ' + totalPrice + ' DKK');
+
             $("#cellphones").change(function(){
                 var selectedPhone = $(this).children("option:selected").text();
+
                 selectedPhones.push(selectedPhone);
-                arr2 = selectedPhones.filter(p => p !== selectedPhone);
+
+                //arr2 = selectedPhones.filter(p => p !== selectedPhone);
+
                 $("#basket").append(new Option(selectedPhone, "value"));
-                console.log(arr2);
+
+                console.log(selectedPhone);
+
+                switch(selectedPhone) {
+                    case "Motorola G99":
+                        console.log("moto11");
+                        totalPrice = totalPrice + 800;
+                        break;
+                    case "iPhone 99":
+                        console.log("ihpone11");
+                        totalPrice = totalPrice + 6000;
+                        break;
+                    case "Samsung Galaxy 99":
+                        console.log("samsung11");
+                        totalPrice = totalPrice + 1000;
+                        break;
+                    case "Sony Xperia 99":
+                        console.log("sony11");
+                        totalPrice = totalPrice + 900;
+                        break;
+                    case "Huawei 99":
+                        console.log("huawei11");
+                        totalPrice = totalPrice + 900;
+                        break;
+                    default:
+                    // code block
+                        console.log("default!");
+                }
+                $("#total-price").empty();
+                $('#total-price').append('Total Price: ' + totalPrice + ' DKK').show();
+            });
+
+            $("#basket").change(function(){
+                var selectedPhone = $(this).children("option:selected").text();
+
+                $('option:selected', this).remove();
+
+                switch(selectedPhone) {
+                    case "Motorola G99":
+                        console.log("moto11");
+                        totalPrice = totalPrice - 800;
+                        break;
+                    case "iPhone 99":
+                        console.log("ihpone11");
+                        totalPrice = totalPrice - 6000;
+                        break;
+                    case "Samsung Galaxy 99":
+                        console.log("samsung11");
+                        totalPrice = totalPrice - 1000;
+                        break;
+                    case "Sony Xperia 99":
+                        console.log("sony11");
+                        totalPrice = totalPrice - 900;
+                        break;
+                    case "Huawei 99":
+                        console.log("huawei11");
+                        totalPrice = totalPrice - 900;
+                        break;
+                    default:
+                        // code block
+                        console.log("default!");
+                }
+                $("#total-price").empty();
+                $('#total-price').append('Total Price: ' + totalPrice + ' DKK').show();
             });
         });
+
+
 
         $(document).ready(function(){
             $("#basket").change(function(){
@@ -91,14 +165,42 @@
             });
         });
 
-       $('#btn').click(function (event) {
+       $('#send-total-amount').click(function (event) {
+           console.log("Sender request!");
+           //if (totalPrice == 0) {
+             //  alert("You havent added anything to your basket");
+           //}
+           //else {
+           //    alert("Total price: " + totalPrice);
+           //}
+           const purchaseData = {
+               internetConnection: true,
+               phoneLines: 8,
+               cellPhones: [{
+                   cellName: "Iphone",
+                   price: 6000
+               }],
+               price: 6800
+           };
             event.preventDefault();
-            $.ajax({
-                url: "http://localhost:8181/lol",
-                success: function(result) {
-                    console.log(result);
-                }
-            })
+
+           $.ajax({
+               url: 'http://localhost:8181/internet-connection',
+               type: 'post',
+               dataType: 'json',
+               contentType: 'application/json',
+               success: function (data) {
+                   console.log(data);
+               },
+               data: JSON.stringify(purchaseData)
+           });
+
+            //$.ajax({
+            //    url: "http://localhost:8181/internet-connection",
+            //    success: function(result) {
+            //        console.log(result);
+            //    }
+            //})
         });
     </script>
     </body>
