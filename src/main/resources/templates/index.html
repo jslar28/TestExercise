@@ -1,58 +1,102 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <title>KEANet</title>        
     </head>
+    <style>
+        .main-form {
+            margin: 0 auto;
+            width:80% /* value of your choice which suits your alignment */
+        }
+        .header {
+            text-align: center;
+        }
+        #selectcellphone {
+            height: 150px;
+        }
+        #internetConnection {
+            padding-bottom: 25px;
+        }
+        h5 {
+            padding-top: 10px;
+        }
+        .buy-btn {
+            padding-bottom: 30px;
+        }
+    </style>
     <body>
-        <h1>KEANet</h1>
-        <div>
-            <input type="checkbox" id="chkInternetConnection">
-            <label for="chkInternetConnection">Internet connection</label>
-            <br>
-            <label for="txtPhoneLines">Phone lines</label>
-            <input type="number" id="txtPhoneLines" value="0">
-            <br>
-            <label for="cmbCellPhones">Cell phones:</label>
-            <br>
-            <table>
-                <tr>
-                    <td>
-                        <select id="txtCellPhones" size="5">
-                            <option value="moto">Motorola G99</option>
-                            <option value="iphone">iPhone 99</option>
-                            <option value="samsung">Samsung Galaxy 99</option>
-                            <option value="sony">Sony Xperia 99</option>
-                            <option value="huawei">Huawei 99</option>
-                        </select>
-                    </td>
-                    <td>
-                        <input type="button" value="&gt;">
-                        <br>
-                        <input type="button" value="&lt;">
-                    </td>
-                    <td>
-                        <select id="txtChosenCellPhones" size="5" style="width: 150px">
-                        </select>
-                    </td>
-                </tr>
-            </table>
-            <br>
-            Total price: 0 DKK
-            <br>
-            <input id="btn" type="submit" value="Buy">
-        </div>
+        <h1 class="header">KEANet</h1>
+        <form class="main-form">
+
+            <div class="form-check" id="internetConnection">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Internet connection</label>
+            </div>
+
+            <div class="form-group">
+                <label for="phonelines">Phone lines:</label>
+                <select class="form-control" id="phonelines">
+                    <option>select number of phone lines</option>
+                    <option>0</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                </select>
+            </div>
+            <div class="form-group" id="selectcellphone">
+                <label for="cellphones">Cell phones:</label>
+                <select multiple class="form-control" id="cellphones">
+                    <option value="moto">Motorola G99</option>
+                    <option value="iphone">iPhone 99</option>
+                    <option value="samsung">Samsung Galaxy 99</option>
+                    <option value="sony">Sony Xperia 99</option>
+                    <option value="huawei">Huawei 99</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="basket">Your basket:</label>
+                <select multiple class="form-control" id="basket">
+                </select>
+                <h5>Total price: 0 DKK</h5>
+            </div>
+            <div class="buy-btn">
+                <button type="button" class="btn btn-dark">Buy</button>
+            </div>
+        </form>
 
     <script>
+
+        
+        selectedPhones = [];
+        $(document).ready(function(){
+            $("#cellphones").change(function(){
+                var selectedPhone = $(this).children("option:selected").text();
+                selectedPhones.push(selectedPhone);
+                arr2 = selectedPhones.filter(p => p !== selectedPhone);
+                $("#basket").append(new Option(selectedPhone, "value"));
+                console.log(arr2);
+            });
+        });
+
+        $(document).ready(function(){
+            $("#basket").change(function(){
+                $('option:selected', this).remove();
+            });
+        });
+
        $('#btn').click(function (event) {
-            // Don't follow the link
             event.preventDefault();
-            // Log the clicked element in the console
-            console.log(event.target);
             $.ajax({
                 url: "http://localhost:8181/lol",
                 success: function(result) {
-
+                    console.log(result);
                 }
             })
         });
