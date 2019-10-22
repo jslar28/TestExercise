@@ -9,5 +9,4 @@ class UnitAndIntegrationTestingExerciseApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }
