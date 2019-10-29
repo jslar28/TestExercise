@@ -87,8 +87,6 @@
 
                 selectedPhones.push(selectedPhone);
 
-                //arr2 = selectedPhones.filter(p => p !== selectedPhone);
-
                 $("#basket").append(new Option(selectedPhone, "value"));
 
                 console.log(selectedPhone);
@@ -184,16 +182,10 @@
            };
             event.preventDefault();
 
-           $.ajax({
-               url: 'http://localhost:8181/internet-connection',
-               type: 'post',
-               dataType: 'json',
-               contentType: 'application/json',
-               success: function (data) {
-                   console.log(data);
-               },
-               data: JSON.stringify(purchaseData)
-           });
+           $.get('/internet',
+               function (data) {
+                   console.log('hej', data);
+               });
 
             //$.ajax({
             //    url: "http://localhost:8181/internet-connection",

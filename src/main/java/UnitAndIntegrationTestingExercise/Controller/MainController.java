@@ -9,21 +9,42 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class MainController {
 
-    public static int totalAmount = 0;
+    Purchase purchase = new Purchase();
 
     @RequestMapping(value = {"", "/", "/index"}, method = RequestMethod.GET)
     public String index() {
         return "index.html";
     }
 
-
-
-    @GetMapping("/internet-connection")
+    @RequestMapping(value = "/internet", method = RequestMethod.GET)
     @ResponseBody
-    public boolean internetConnection(boolean internetConnection) {
-        if (internetConnection) {
-            return true;
-        }
-        else return false;
+    public int internetConnection(boolean hasInternetConnection) {
+        return purchase.internetConnection(hasInternetConnection);
     }
+
+    @RequestMapping(value = "/phone-line-increment", method = RequestMethod.GET)
+    @ResponseBody
+    public int phoneLinesIncrement() {
+        return purchase.phoneLinesIncrement();
+    }
+
+    @RequestMapping(value = "/phone-line-decrement", method = RequestMethod.GET)
+    @ResponseBody
+    public int phoneLinesDecrement() {
+        return purchase.phoneLinesDecrement();
+    }
+
+    @RequestMapping(value = "/add-phone", method = RequestMethod.GET)
+    @ResponseBody
+    public int addPhone(String modelName) {
+        return purchase.addPhone(modelName);
+    }
+
+    @RequestMapping(value = "/remove-phone", method = RequestMethod.GET)
+    @ResponseBody
+    public int removePhone(String modelName) {
+        return purchase.removePhone(modelName);
+    }
+
+
 }
